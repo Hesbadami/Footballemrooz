@@ -51,8 +51,13 @@ def warning():
 		]:
 			if (not db.get_item('team_id','teams',{'team_name':b}, returnBool=True)[0][0]):
 				dr = (pd.to_datetime(row['Date']).date() - now.date()).days
-				if (0 <= dr <= 27):
+				if (0 <= dr <= 30):
 					BadTeam += b+' in '+str((pd.to_datetime(row['Date']).date() - now.date()).days) + ' days!\n'
+					
+		if (not db.get_item('competition_id','competitions',{'competition_acronym':row['Competition']}, returnBool=True)[0][0]):
+			dr = (pd.to_datetime(row['Date']).date() - now.date()).days
+			if (0 <= dr <= 30):
+				BadTeam += row['Competition']+' in '+str((pd.to_datetime(row['Date']).date() - now.date()).days) + ' days!\n'
 	
 	if BadTeam:
 		log.send_message('Warning:\n'+BadTeam)
