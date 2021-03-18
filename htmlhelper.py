@@ -87,31 +87,21 @@ class Html():
 		for index, match in df.iterrows():
 			if match['Date'].date() == self.date:
 				e = True
-				print('hi1')
 				try:
-					print('hi2')
 					if match['Result']:
-						print('hi3')
 						R = '_Result'
-						self.add_row(
-							match['Result'],
-							match['Competition'],
-							match['Home team'],
-							match['Away team'],
-							match['Channel'],
-							isscore=True
-						)
-					
-					else:	
-						self.add_row(
-							digits.en_to_fa(match['Date'].strftime('%H:%M')),
-							match['Competition'],
-							match['Home team'],
-							match['Away team'],
-							match['Channel']
-						)
+						
+				if R:
+					self.add_row(
+						match['Result'],
+						match['Competition'],
+						match['Home team'],
+						match['Away team'],
+						match['Channel'],
+						isscore=True
+					)
 				
-				except:
+				else:
 					self.add_row(
 						digits.en_to_fa(match['Date'].strftime('%H:%M')),
 						match['Competition'],
@@ -130,26 +120,18 @@ class Html():
 				try:
 					if match['Result']:
 						R = '_Result'
-						self.add_row(
-							match['Result'],
-							match['Competition'],
-							match['Home team'],
-							match['Away team'],
-							match['Channel'],
-							isscore=True
-						)
-
-					else:	
-						self.add_row(
-							digits.en_to_fa(match['Date'].strftime('%H:%M')),
-							match['Competition'],
-							match['Home team'],
-							match['Away team'],
-							match['Channel']
-						)
 				
-				except Exception as e:
-					print(e)
+				if R:
+					self.add_row(
+						match['Result'],
+						match['Competition'],
+						match['Home team'],
+						match['Away team'],
+						match['Channel'],
+						isscore=True
+					)
+				
+				else:
 					self.add_row(
 						digits.en_to_fa(match['Date'].strftime('%H:%M')),
 						match['Competition'],
