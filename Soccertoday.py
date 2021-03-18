@@ -133,6 +133,8 @@ def sub_result_update(match_id, link_url, link_type):
 					6:'Result',
 					7:'Channel'
 				}, inplace=True)
+				
+				print(matches)
 					
 				post.create_post(matches)
 				
@@ -380,9 +382,8 @@ def main():
 			]:
 				link_url = db.get_item('link_url', 'links', {'link_name':team})
 				if link_url:
-					link_type = db.get_item('link_url', 'links', {'link_name':team})[0][0]
+					link_type = db.get_item('link_type', 'links', {'link_name':team})[0][0]
 					break
-			
 			
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
 		
