@@ -345,16 +345,17 @@ def main():
 			log.send_message(str(e))
 			ciese_checking_channel()
 	
-	checkjob = schedule_channel.every(30).minutes.do(wrapper)
-	
-	stop_channel_check = channel_check()
-	
-	def ciese_checking_channel():
-		stop_channel_check.set()
-		schedule_channel.cancel_job(checkjob)
-		schedule_channel.cancel_job(ciesejob)
+	if now.hour < 13
+		checkjob = schedule_channel.every(30).minutes.do(wrapper)
 		
-	ciesejob = schedule_channel.every().day.at("13:00").do(ciese_checking_channel)
+		stop_channel_check = channel_check()
+		
+		def ciese_checking_channel():
+			stop_channel_check.set()
+			schedule_channel.cancel_job(checkjob)
+			schedule_channel.cancel_job(ciesejob)
+			
+		ciesejob = schedule_channel.every().day.at("13:00").do(ciese_checking_channel)
 
 	post_id = db.get_item('MAX(post_id)','posts')[0][0]
 	post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
@@ -367,9 +368,9 @@ def main():
 		
 		schedule_result = schedule.Scheduler()
 		
-		def result_update(match_id, link_url):
-			# WRITE RESULT UPDATE ABOVE
-			return schedule_result.CancelJob
+		def result_update(match_id, link_url, link_type):
+			schedule_subresult = schedule.Scheduler()
+			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
 		
 		for index, row in matches.iterrows():
 			for team in [
@@ -384,10 +385,6 @@ def main():
 			
 			
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
-		
-		def result_update(match_id, link_url, link_type):
-			schedule_subresult = schedule.Scheduler()
-			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
 		
 			def sub_result_check():
 				
@@ -424,9 +421,4 @@ def main():
 		w.start()
 
 if __name__ == '__main__':
-
-	schedule.every().day.at("09:00").do(main)
-
-	while True:
-		schedule.run_pending()
-		time.sleep(60)
+	main()
