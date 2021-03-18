@@ -87,8 +87,11 @@ class Html():
 		for index, match in df.iterrows():
 			if match['Date'].date() == self.date:
 				e = True
+				print('hi1')
 				try:
+					print('hi2')
 					if match['Result']:
+						print('hi3')
 						R = '_Result'
 						self.add_row(
 							match['Result'],
