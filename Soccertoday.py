@@ -14,11 +14,16 @@ if not os.path.isfile('config.json'):
 		'PostgreSQL_PORT': input('database server port (default: "5432"): '),
 		'PostgreSQL_USERNAME': input('database user name: '),
 		'PostgreSQL_PASSWORD': getpass(f'Password for user: '),
-		'Telegram_TOKEN': input('telegram bot api token: ')
+		'Telegram_TOKEN': input('telegram bot api token: '),
+		'Telegram_CHAT': input('telegram main chat ID (e.g. @footballemrooz): '),
+		'Telegram_LOG': input('telegram chat ID for logs (e.g. 69411445): ')
 	}
 	
 	with open('config.json', 'w') as f:
 		json.dump(_config, f)
+		
+with open('config.json', 'r') as f:
+	_config = json.load(f)
 
 from dbhelper import DBHelper
 from telegram import Telegram
@@ -28,8 +33,8 @@ from htmlhelper import Html
 db = DBHelper()
 db.setup()
 
-tg = Telegram(69411445)
-log = Telegram(69411445)
+tg = Telegram(_config['Telegram_CHAT'])
+log = Telegram(_config['Telegram_LOG'])
 
 sc = Scrap()
 
