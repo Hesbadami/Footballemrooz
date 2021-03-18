@@ -90,7 +90,9 @@ class Html():
 				try:
 					if match['Result']:
 						R = '_Result'
-						
+				except:
+					pass
+				
 				if R:
 					self.add_row(
 						match['Result'],
@@ -120,6 +122,9 @@ class Html():
 				try:
 					if match['Result']:
 						R = '_Result'
+						
+				except:
+					pass
 				
 				if R:
 					self.add_row(
