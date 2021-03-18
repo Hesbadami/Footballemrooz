@@ -1,0 +1,147 @@
+@font-face {
+  font-family: persianFont;
+  src: url(yekan/Yekan.woff);
+}
+@font-face {
+  font-family: persianFont2;
+  src: url(IRANSansWeb/IRANSansWeb.woff2);
+}
+td {
+  padding: 0 !important;
+}
+.persian {
+  font-family: persianFont2;
+  text-align: right;
+}
+[lang|="fa"] {
+  font-family: persianFon2;
+  text-align: right;
+}
+.left-align {
+  text-align: left !important;
+}
+.right-align {
+  text-align: right !important;
+}
+.center-align {
+  text-align: center !important;
+}
+
+.time {
+  color: #91918f;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85px;
+  padding: 0 12px;
+  width: 67.95px;
+  font-size: 20px;
+}
+
+.score {
+  color: #aaa;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 85px;
+  width: 67.95px;
+  padding: 0 5px;
+}
+
+.score div {
+  text-align: center;
+  /*   border-radius: 6px; */
+  color: #5B5959;
+  height: 30px;
+  line-height: 34.5px;
+  font-size: 20px;
+}
+
+.winner {
+  background-color: rgb(226, 239, 218);
+}
+.looser {
+  background-color: rgb(252, 228, 214);
+}
+.tie {
+  background-color: rgb(255, 242, 204);
+}
+
+.time2 {
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85px;
+  padding: 0 12px;
+  width: 67.95px;
+  font-size: 20px;
+}
+
+.date {
+  font-size: 18px;
+  margin: 3px 15px;
+}
+
+.right-row-cells {
+  display: flex;
+}
+.channel {
+}
+.matchs {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.match-row {
+  display: flex;
+  margin: 0px;
+  align-items: center;
+  width: 260px;
+}
+.match-row img {
+  width: 25px;
+  width: 25px;
+  margin: 3px 10px;
+}
+.match-row h5 {
+  font-size: 18px;
+  columns: #444;
+  margin: 0 10px 0 0;
+}
+
+.league img {
+  width: 60px;
+  height: auto;
+  margin: 5px 10px;
+}
+.channel img {
+  width: 30px;
+  height: auto;
+  margin: 5px 5px;
+}
+.league,
+.channel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 85px;
+}
+
+.table-container {
+  width: 430px;
+}
+table,
+th,
+td {
+  border: 4px solid #eee !important;
+}
+.title {
+  font-size: 20px;
+  color: rgb(204, 2, 2);
+  font-weight: bold;
+  margin: 8px 0px;
+  padding: 3px 10px;
+  width: 132px;
+  border-bottom: 5px solid rgb(204, 2, 2);
+}
