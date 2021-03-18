@@ -345,7 +345,7 @@ def main():
 			log.send_message(str(e))
 			ciese_checking_channel()
 	
-	if now.hour < 13
+	if now.hour < 13:
 		checkjob = schedule_channel.every(30).minutes.do(wrapper)
 		
 		stop_channel_check = channel_check()
