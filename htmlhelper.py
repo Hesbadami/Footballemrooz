@@ -101,6 +101,15 @@ class Html():
 							match['Channel'],
 							isscore=True
 						)
+					
+					else:	
+						self.add_row(
+							digits.en_to_fa(match['Date'].strftime('%H:%M')),
+							match['Competition'],
+							match['Home team'],
+							match['Away team'],
+							match['Channel']
+						)
 				
 				except:
 					self.add_row(
@@ -128,6 +137,15 @@ class Html():
 							match['Away team'],
 							match['Channel'],
 							isscore=True
+						)
+
+					else:	
+						self.add_row(
+							digits.en_to_fa(match['Date'].strftime('%H:%M')),
+							match['Competition'],
+							match['Home team'],
+							match['Away team'],
+							match['Channel']
 						)
 				
 				except Exception as e:
