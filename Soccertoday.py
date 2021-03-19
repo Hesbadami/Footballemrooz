@@ -337,7 +337,6 @@ def main():
 			@classmethod
 			def run(cls):
 				while not cease_channel_check.is_set():
-					print ("Checking channel")
 					schedule_channel.run_pending()
 					time.sleep(5)
 		
@@ -427,4 +426,7 @@ def main():
 		w.start()
 
 if __name__ == '__main__':
-	main()
+	schedule.every().day.at("09:00").do(main)
+	while True:
+		schedule.run_pending()
+		time.sleep(30)
