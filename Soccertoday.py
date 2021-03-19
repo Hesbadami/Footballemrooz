@@ -44,23 +44,27 @@ post = Html(now.date())
 def warning():
 	r = sc.raw()
 	d = db.get_item('team_id','teams',{'team_name':'Barcelona'},returnBool=True)[0][0]
-	BadTeam = ''
+	BadTeam = pd.DataFrame(columns=['Team','Days'])
 	for index, row in r.iterrows():
 		for b in [
 			row['Home team'], row['Away team']
 		]:
 			if (not db.get_item('team_id','teams',{'team_name':b}, returnBool=True)[0][0]):
 				dr = (pd.to_datetime(row['Date']).date() - now.date()).days
-				if (0 <= dr <= 30):
-					BadTeam += b+' in '+str((pd.to_datetime(row['Date']).date() - now.date()).days) + ' days!\n'
+				if (0 <= dr <= 10):
+					BadTeam = BadTeam.append({'Team':b, 'Days':dr}, ignore_index=True)
 					
 		if (not db.get_item('competition_id','competitions',{'competition_acronym':row['Competition']}, returnBool=True)[0][0]):
 			dr = (pd.to_datetime(row['Date']).date() - now.date()).days
-			if (0 <= dr <= 30):
-				BadTeam += row['Competition']+' in '+str((pd.to_datetime(row['Date']).date() - now.date()).days) + ' days!\n'
+			if (0 <= dr <= 10):
+				BadTeam = BadTeam.append({'Team':row['Competition'], 'Days':dr}, ignore_index=True)
+				
+	print(BadTeam.empty)
 	
-	if BadTeam:
-		log.send_message('Warning:\n'+BadTeam)
+	if not BadTeam.empty:
+		BadTeam.sort_values('Days', inplace=True, ignore_index=True)
+		BadTeam.drop_duplicates(subset=['Team'], inplace=True, ignore_index=True)
+		log.send_message('Warning! '+str(BadTeam))
 
 def create_png(date):
 	chrome_options= Options()
@@ -422,11 +426,7 @@ def main():
 		
 		run_result_check()
 		
-		w = threading.Thread(target=warning)
-		w.start()
+		warning()
 
 if __name__ == '__main__':
-	schedule.every().day.at("09:00").do(main)
-	while True:
-		schedule.run_pending()
-		time.sleep(30)
+	main()
