@@ -417,7 +417,6 @@ def main():
 		schedule_result = schedule.Scheduler()
 		
 		def result_update(match_id, link_url, link_type):
-			schedule_subresult = schedule.Scheduler()
 			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
 		
 		for index, row in matches.iterrows():
@@ -432,7 +431,9 @@ def main():
 					break
 			
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
-		
+			
+			schedule_subresult = schedule.Scheduler()
+			
 			def sub_result_check():
 				
 				class SubResultThread(threading.Thread):
