@@ -10,7 +10,7 @@ parser.add_argument('--telegram', default=False, action='store_true',
 parser.add_argument('--noimage', default=False, action='store_true',
 					help='If True, then produce only html result (e.g. if you cant have chromium driver', required=False)
 
-parser.add_argument('--config', type=bool,
+parser.add_argument('--config', default=False, action='store_true',
 					help='Use this to reconfigure config.json', required=False)
 
 args = parser.parse_args()
