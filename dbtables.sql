@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS "links" (
 
 CREATE TABLE IF NOT EXISTS "posts" (
   "post_id" SERIAL PRIMARY KEY NOT NULL,
-  "post_message_id" int NOT NULL,
+  "post_message_id" int,
   "post_date" text UNIQUE NOT NULL,
   "post_html" text NOT NULL
 );

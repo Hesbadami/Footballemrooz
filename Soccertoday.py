@@ -1,40 +1,69 @@
 import pandas as pd
-import json, os, requests, schedule, pytz, datetime, threading, time
-from PIL import Image
+import json, os, requests, schedule, pytz, datetime, threading, time, argparse
 from getpass import getpass
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
+
+parser = argparse.ArgumentParser(description='Main code to gathers data on all soccer matches for today')
+
+parser.add_argument('--telegram', default=False, action='store_true',
+					help='Use if you want to attach a telegram bot and chat', required=False)
+					
+parser.add_argument('--noimage', default=False, action='store_true',
+					help='If True, then produce only html result (e.g. if you cant have chromium driver', required=False)
+
+parser.add_argument('--config', type=bool,
+					help='Use this to reconfigure config.json', required=False)
+
+args = parser.parse_args()
+
+if args.telegram and args.noimage:
+	raise ValueError("You can only post images to telegram.")
 
 ### CONFIGURATION
 pd.options.mode.chained_assignment = None  # default='warn'
 
-if not os.path.isfile('config.json'):
+if (not os.path.isfile('config.json')) or args.config:
 	_config = {
 		'PostgreSQL_HOST': input('database server host or socket directory (default: "localhost"): '),
 		'PostgreSQL_PORT': input('database server port (default: "5432"): '),
 		'PostgreSQL_USERNAME': input('database user name: '),
 		'PostgreSQL_PASSWORD': getpass(f'Password for user: '),
-		'Telegram_TOKEN': input('telegram bot api token: '),
-		'Telegram_CHAT': input('telegram main chat ID (e.g. @footballemrooz): '),
-		'Telegram_LOG': input('telegram chat ID for logs (e.g. 69411445): ')
 	}
+	
+	if args.telegram:
+		_config['Telegram_TOKEN'] = input('telegram bot api token: ')
+		_config['Telegram_CHAT'] = input('telegram main chat ID (e.g. @footballemrooz): ')
+		_config['Telegram_LOG'] = input('telegram chat ID for logs (e.g. 69411445): ')
 	
 	with open('config.json', 'w') as f:
 		json.dump(_config, f)
-		
+
+args = parser.parse_args()
+
+
 with open('config.json', 'r') as f:
 	_config = json.load(f)
+	
+	if args.telegram and ('Telegram' not in str(_config)):
+		_config['Telegram_TOKEN'] = input('telegram bot api token: ')
+		_config['Telegram_CHAT'] = input('telegram main chat ID (e.g. @footballemrooz): ')
+		_config['Telegram_LOG'] = input('telegram chat ID for logs (e.g. 69411445): ')
+		
+		with open('config.json', 'w') as c:
+			json.dump(_config, c)
+	
 
 from dbhelper import DBHelper
-from telegram import Telegram
 from scraper import Scrap
 from htmlhelper import Html
 
 db = DBHelper()
 db.setup()
 
-tg = Telegram(_config['Telegram_CHAT'])
-log = Telegram(_config['Telegram_LOG'])
+if args.telegram:
+	from telegram import Telegram
+	
+	tg = Telegram(_config['Telegram_CHAT'])
+	log = Telegram(_config['Telegram_LOG'])
 
 sc = Scrap()
 
@@ -58,47 +87,52 @@ def warning():
 			dr = (pd.to_datetime(row['Date']).date() - now.date()).days
 			if (0 <= dr <= 10):
 				BadTeam = BadTeam.append({'Team':row['Competition'], 'Days':dr}, ignore_index=True)
-				
-	print(BadTeam.empty)
-	
+					
 	if not BadTeam.empty:
 		BadTeam.sort_values('Days', inplace=True, ignore_index=True)
 		BadTeam.drop_duplicates(subset=['Team'], inplace=True, ignore_index=True)
-		log.send_message('Warning! '+str(BadTeam))
-
-def create_png(date):
-	chrome_options= Options()
-	
-	chrome_options.add_argument("--headless")
-	chrome_options.add_argument("--no-sandbox")
-	
-	driver=webdriver.Chrome(options=chrome_options)
-	driver.get('file:///'+os.path.abspath(f"results/{date}.html"))
-	
-	original_size = driver.get_window_size()
-	required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
-	required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
-	
-	driver.set_window_size(required_width, required_height)
-	
-	driver.find_element_by_tag_name('body').screenshot(f"results/{date}.png")
-	
-	driver.set_window_size(original_size['width'], original_size['height'])
-	driver.close()
-	
-	def crop_image(img, img_limit):
-		img_width, img_height = img.size
-		crop_dim = (img_limit, 0, img_width, img_height)
-		cropped_img = img.crop(crop_dim)
-		return cropped_img
+		print('Warning! \n', BadTeam)
 		
-	img_limit = 325
+		if args.telegram: log.send_message('Warning! '+str(BadTeam))
+
+if not args.noimage:
+	from PIL import Image
+	from selenium import webdriver
+	from selenium.webdriver.chrome.options import Options
 	
-	img = Image.open(f"results/{date}.png")
-	img = crop_image(img, img_limit)
-	
-	img.save(f"results/{date}.png")
-	print (f'Successfully generated {date}.png')
+	def create_png(date):
+		chrome_options= Options()
+		
+		chrome_options.add_argument("--headless")
+		chrome_options.add_argument("--no-sandbox")
+		
+		driver=webdriver.Chrome(options=chrome_options)
+		driver.get('file:///'+os.path.abspath(f"results/{date}.html"))
+		
+		original_size = driver.get_window_size()
+		required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
+		required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
+		
+		driver.set_window_size(required_width, required_height)
+		
+		driver.find_element_by_tag_name('body').screenshot(f"results/{date}.png")
+		
+		driver.set_window_size(original_size['width'], original_size['height'])
+		driver.close()
+		
+		def crop_image(img, img_limit):
+			img_width, img_height = img.size
+			crop_dim = (img_limit, 0, img_width, img_height)
+			cropped_img = img.crop(crop_dim)
+			return cropped_img
+			
+		img_limit = 325
+		
+		img = Image.open(f"results/{date}.png")
+		img = crop_image(img, img_limit)
+		
+		img.save(f"results/{date}.png")
+		print (f'Successfully generated {date}.png')
 	
 def sub_result_update(match_id, link_url, link_type):
 	if not (bool(db.get_item('match_result','matches',{'match_id':match_id})[0][0])):
@@ -113,7 +147,7 @@ def sub_result_update(match_id, link_url, link_type):
 			if match_date == pd.to_datetime(df.loc[4, 'Date']).date():
 				db.update_match({'match_result':df.loc[4, 'Home team']}, {'match_id':match_id})
 				
-				tg.send_action('typing')
+				if args.telegram: tg.send_action('typing')
 	
 				post_id = db.get_item('MAX(post_id)','posts')[0][0]
 				post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
@@ -142,16 +176,14 @@ def sub_result_update(match_id, link_url, link_type):
 					6:'Result',
 					7:'Channel'
 				}, inplace=True)
-				
-				print(matches)
 					
 				post.create_post(matches)
 				
-				tg.send_action('upload_photo')
+				if args.telegram: tg.send_action('upload_photo')
 				
-				create_png(f'{now.date()}_Result')
+				if not args.noimage: create_png(f'{now.date()}_Result')
 				
-				tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
+				if args.telegram: tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
 				
 				return schedule_subresult.CancelJob
 			
@@ -173,8 +205,6 @@ def sub_result_update(match_id, link_url, link_type):
 			match_away = db.get_item('team_name','teams',{
 				'team_id':db.get_item('match_away','matches',{'match_id':match_id})[0][0]
 			})[0][0]
-			
-			print(match_date,match_home,match_away)
 
 			df = df[
 				(df['Date'].apply(lambda d: pd.to_datetime(d).date()) == match_date) &
@@ -185,10 +215,10 @@ def sub_result_update(match_id, link_url, link_type):
 				if '-' in df.iloc[0, 3]:
 					db.update_match({'match_result':df.iloc[0, 3]}, {'match_id':match_id})
 					
-					tg.send_action('typing')
+					if args.telegram: tg.send_action('typing')
 		
 					post_id = db.get_item('MAX(post_id)','posts')[0][0]
-					post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
+					if args.telegram: post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
 					
 					matches = pd.DataFrame(
 						db.get_item('*', 'matches', {'match_post_id': post_id}),
@@ -217,19 +247,19 @@ def sub_result_update(match_id, link_url, link_type):
 						
 					post.create_post(matches)
 					
-					tg.send_action('upload_photo')
+					if args.telegram: tg.send_action('upload_photo')
 					
-					create_png(f'{now.date()}_Result')
+					if not args.noimage: create_png(f'{now.date()}_Result')
 					
-					tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
+					if args.telegram: tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
 					
 					return schedule_subresult.CancelJob
 
 def channel_update():
-	tg.send_action('typing')
+	if args.telegram: tg.send_action('typing')
 	
 	post_id = db.get_item('MAX(post_id)','posts')[0][0]
-	post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
+	if args.telegram: post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
 	
 	if not (db.get_item('*', 'matches', {'match_post_id': post_id}, returnBool=True)[0][0]):
 		raise RuntimeError('There are no matches today to check for channel')
@@ -275,14 +305,14 @@ def channel_update():
 			
 		post.create_post(matches)
 		
-		tg.send_action('upload_photo')
+		if args.telegram: tg.send_action('upload_photo')
 		
-		create_png(f'{now.date()}{R}')
+		if not args.noimage: create_png(f'{now.date()}{R}')
 		
-		tg.edit_photo(post_message_id, f'results/{now.date()}{R}.png')
+		if args.telegram: tg.edit_photo(post_message_id, f'results/{now.date()}{R}.png')
 	
 def main():
-	tg.send_action('typing')
+	if args.telegram: tg.send_action('typing')
 	
 	today = sc.today()
 	todayclean = sc.clean(today)
@@ -295,20 +325,27 @@ def main():
 			(todayclean['Date'].apply(lambda d: d.hour) <= 9)
 		)]
 	)
-	print(todaymatches)
 	
 	post.create_post(todaymatches)
 	
-	tg.send_action('upload_photo')
+	if args.telegram: tg.send_action('upload_photo')
 	
-	create_png(now.date())
-	message_id = tg.send_photo(f'results/{now.date()}.png')
+	if not args.noimage: create_png(now.date())
 	
 	db.add_post(
-		'post_message_id, post_date, post_html',
-		(message_id, now.date(), f'results/{now.date()}.html'),
-		replace={'post_message_id':message_id}
+		'post_date, post_html',
+		(now.date(), f'results/{now.date()}.html')
 		)
+		
+	if args.telegram: 
+		message_id = tg.send_photo(f'results/{now.date()}.png')
+		
+		db.add_post(
+			'post_date, post_html',
+			(now.date(), f'results/{now.date()}.html'),
+			replace={'post_message_id':message_id}
+			)
+		
 		
 	post_id = db.get_item('MAX(post_id)','posts')[0][0]
 	
@@ -330,7 +367,8 @@ def main():
 				)
 			)
 		except Exception as e:
-			log.send_message(str(e))
+			print(e)
+			if args.telegram: log.send_message(str(e))
 	
 	schedule_channel = schedule.Scheduler()
 	
@@ -352,7 +390,8 @@ def main():
 		try:
 			channel_update()
 		except Exception as e:
-			log.send_message(str(e))
+			print(e)
+			if args.telegram: log.send_message(str(e))
 			ciese_checking_channel()
 	
 	if now.hour < 13:
@@ -368,7 +407,6 @@ def main():
 		ciesejob = schedule_channel.every().day.at("13:00").do(ciese_checking_channel)
 
 	post_id = db.get_item('MAX(post_id)','posts')[0][0]
-	post_message_id = db.get_item('post_message_id','posts',{'post_id':post_id})[0][0]
 	
 	if (db.get_item('*', 'matches', {'match_post_id': post_id}, returnBool=True)[0][0]):
 		matches = pd.DataFrame(
@@ -426,7 +464,7 @@ def main():
 		
 		run_result_check()
 		
-		warning()
+	warning()
 
 if __name__ == '__main__':
 	main()
