@@ -17,7 +17,7 @@ Alternatively, run commands inside the virtualenv with `pipenv run`.
 ```bash
 python Soccertoday.py
 ```
-The result is saved (by default) in `results/<date>.html` (e.g. `2021-03-18.html`). You can specify wether if you also want a `png` image created as an argument,  similarly the image is also saved in `results/<date>.png`. The image creation is supported by `Selenium` and Chromium's chromedriver. Do not use if you don't or can't have chromedriver with chromium-browser (e.g. on windows). (Note that regular chrome browser does not work, chromium is essential)
+The result is saved (by default) in `results/<date>.html` (e.g. `2021-03-18.html`). You can specify wether if you also want a `png` image created as an argument,  similarly the image is also saved in `results/<date>.png`. The image creation is supported by `Selenium` and Chromium's [ChromeDriver](https://chromedriver.chromium.org). Do not use if you don't or can't have ChromeDriver with Chromium browser (e.g. on windows). (Note that regular Chrome browser does not work! Chromium is essential.)
 
 ##### Tips:
 - Use `--telegram` argument to also attach a [Telegram Bot](https://core.telegram.org/bots). You need to pass your api token and chat ID into configs.
