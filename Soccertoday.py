@@ -185,7 +185,7 @@ def sub_result_update(match_id, link_url, link_type):
 				
 				if args.telegram: tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
 				
-				return schedule_subresult.CancelJob
+				return schedule.CancelJob
 			
 		elif link_type == 'COMPETITION':
 			competition =  db.get_item(
@@ -253,7 +253,7 @@ def sub_result_update(match_id, link_url, link_type):
 					
 					if args.telegram: tg.edit_photo(post_message_id, f'results/{now.date()}_Result.png')
 					
-					return schedule_subresult.CancelJob
+					return schedule.CancelJob
 
 def channel_update():
 	if args.telegram: tg.send_action('typing')
@@ -449,7 +449,7 @@ def main():
 			
 			sub_result_check()
 			
-			return schedule_result.CancelJob
+			return schedule.CancelJob
 		
 		def run_result_check():
 
