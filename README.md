@@ -51,3 +51,7 @@ PostgreSQL
 |	│	│	│   ├── posts
 |	│	│	│   ├── matches
 ```
+
+Scheduling
+----------
+To automate a daily scheduled run (at "09:00 AM" for example) use Cron Job. A quick and short guide on setting up Cron Job is provided [here](https://gavinwiener.medium.com/how-to-schedule-a-python-script-cron-job-dea6cbf69f4e).
