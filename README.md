@@ -42,12 +42,12 @@ Additional setups like creating tables are done automatically in the program. (S
 ```
 PostgreSQL
 ├── footballemrooz
-|		├── Schemas
-|		│		├── Public (default)
-|		│		│	  	├── Tables
-|		│		│	  	│		├── links
-|		│		│	 	 	│		├── teams
-|		│		│	  	│		├── competitions
-|		│		│		  │		├── posts
-|		│		│		  │		├── matches
+|	├── Schemas
+|	│	├── Public (default)
+|	│	│	├── Tables
+|	│	│	│   ├── links
+|	│	│	│   ├── teams
+|	│	│	│   ├── competitions
+|	│	│	│   ├── posts
+|	│	│	│   ├── matches
 ```
