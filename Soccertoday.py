@@ -443,7 +443,7 @@ def main():
 				class SubResultThread(threading.Thread):
 					@classmethod
 					def run(cls):
-						while schedule_subresult.jobs:
+						while schedule_result.jobs:
 							print ("Checking results")
 							schedule_subresult.run_pending()
 							time.sleep(30)

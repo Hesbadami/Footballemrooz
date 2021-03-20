@@ -83,13 +83,19 @@ class Html():
 		df = df.sort_values('Date')
 		e = False
 		daybreaked = False
-		R = ''
+		Re = ''
 		for index, match in df.iterrows():
+			
+			R = False
+			
 			if match['Date'].date() == self.date:
 				e = True
 				try:
+					print (match['Result'])
+					print (bool(match['Result']))
 					if match['Result']:
-						R = '_Result'
+						R = True
+						Re = '_Result'
 				except:
 					pass
 				
@@ -121,7 +127,8 @@ class Html():
 					
 				try:
 					if match['Result']:
-						R = '_Result'
+						R = True
+						Re = '_Result'
 						
 				except:
 					pass
@@ -154,6 +161,6 @@ class Html():
 			raw = f.read()
 		raw = raw.replace('#date', date_to_jalali(pd.to_datetime(self.date)))
 		raw = raw.replace('#row', hashrow)
-		with open (f'results/{self.date}{R}.html', 'wt') as f:
+		with open (f'results/{self.date}{Re}.html', 'wt') as f:
 			f.write(raw)
-		print (f'Successfully generated {self.date}{R}.html')
+		print (f'Successfully generated {self.date}{Re}.html')
