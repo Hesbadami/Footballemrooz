@@ -414,10 +414,14 @@ def main():
 		)
 		matches['Hour'] = matches[5].apply(lambda x: (pd.to_datetime(x) + datetime.timedelta(hours=2)).strftime('%H:%M'))
 		
+		schedule_subresult = schedule.Scheduler()
+		
 		schedule_result = schedule.Scheduler()
 		
 		def result_update(match_id, link_url, link_type):
 			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
+			
+			return schedule.CancelJob
 		
 		for index, row in matches.iterrows():
 			for team in [
@@ -431,8 +435,6 @@ def main():
 					break
 			
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
-			
-			schedule_subresult = schedule.Scheduler()
 			
 			def sub_result_check():
 				
@@ -448,8 +450,6 @@ def main():
 				check_thread.start()
 			
 			sub_result_check()
-			
-			return schedule.CancelJob
 		
 		def run_result_check():
 
@@ -464,7 +464,7 @@ def main():
 			result_thread.start()
 		
 		run_result_check()
-		
+
 	warning()
 
 if __name__ == '__main__':
