@@ -2,6 +2,8 @@ import pandas as pd
 import json, os, requests, schedule, pytz, datetime, threading, time, argparse
 from getpass import getpass
 
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
 parser = argparse.ArgumentParser(description='Main code to gathers data on all soccer matches for today')
 
 parser.add_argument('--telegram', default=False, action='store_true',
