@@ -80,6 +80,7 @@ class Html():
 		self.rows.append(row)
 		
 	def create_post(self, df):
+		self.rows = []
 		df = df.sort_values('Date')
 		e = False
 		daybreaked = False
