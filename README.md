@@ -23,7 +23,6 @@ The result is saved (by default) in `results/<date>.html` (e.g. `2021-03-18.html
 - Use `--telegram` argument to also attach a [Telegram Bot](https://core.telegram.org/bots). You need to pass your api token and chat ID into configs.
 - If you wish only for html results and don't want `png` image to be created. Use the `--noimage` argument and give another try.
 - Use the `--config` argument, to go through configuration wizard again. Alternatively, you can manually edit the `config.json` file.
-- The Wav2Lip model without GAN usually needs more experimenting with the above two to get the most ideal results, and sometimes, can give you a better result as well.
 
 Preparing the database
 ----------
