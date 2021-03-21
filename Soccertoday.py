@@ -444,9 +444,8 @@ def main():
 					@classmethod
 					def run(cls):
 						while schedule_result.jobs:
-							print ("Checking results")
 							schedule_subresult.run_pending()
-							time.sleep(30)
+							time.sleep(300)
 				
 				check_thread = SubResultThread()
 				check_thread.start()
