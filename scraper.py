@@ -90,12 +90,14 @@ class Scrap:
 		return matches
 		
 	def clean(self, matches):
-		matches = matches[matches['Score/Time'].apply(lambda x: ":" in x)]
-		matches['Date'] = matches['Date'].apply(str) +' '+ matches['Score/Time'].apply(lambda x: x.replace(' ', ''))
-		matches.drop('Score/Time', axis=1, inplace=True)
-		matches['Date'] = matches['Date'].apply(lambda x: localize_timezone(pd.to_datetime(x)))
-		matches.drop_duplicates(keep='first', inplace=True)
-		matches.reset_index(drop=True, inplace=True)
+		if not matches.empty:
+			matches = matches[matches['Score/Time'].apply(lambda x: ":" in x)]
+			matches['Date'] = matches['Date'].apply(str) +' '+ matches['Score/Time'].apply(lambda x: x.replace(' ', ''))
+			matches.drop('Score/Time', axis=1, inplace=True)
+			matches['Date'] = matches['Date'].apply(lambda x: localize_timezone(pd.to_datetime(x)))
+			matches.drop_duplicates(keep='first', inplace=True)
+			matches.reset_index(drop=True, inplace=True)
+		
 		return matches
 	
 	def scrap_channels(self):
