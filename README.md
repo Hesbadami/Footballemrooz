@@ -1,6 +1,6 @@
 # **Footballemrooz**: *Today's Soccer Matches*
 
-An automated server-side Telegram bot, which gathers data on all soccer matches daily, and creates a stylized image containing info on today's matches (e.g. kick-off time and broadcasters).
+An automated server-side program, which gathers data on all soccer matches daily, and creates a stylized image containing info on today's matches (e.g. kick-off time and broadcasters).
 
 ----------
 Prerequisites
