@@ -5,7 +5,7 @@ An automated server-side Telegram bot, which gathers data on all soccer matches 
 ----------
 Prerequisites
 -------------
-- `Python 3.6` 
+- `Python 3.6` or higher
 - PostgreSQL: [How to Install PostgreSQL and phpPgAdmin on Ubuntu 20.04](https://www.howtoforge.com/tutorial/ubuntu-postgresql-installation/)
 - Install necessary packages using `pipenv install`. Run `pip install pipenv` if you don't have it installed. Full instructions for installing and using pipenv is provided [here](https://realpython.com/pipenv-guide/#pipenv-introduction). Also have a look at [their github](https://github.com/pypa/pipenv) if you are interested. 
 
