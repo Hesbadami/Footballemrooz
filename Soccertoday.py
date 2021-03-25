@@ -137,14 +137,15 @@ if not args.noimage:
 		print (f'Successfully generated {date}.png')
 	
 def sub_result_update(match_id, link_url, link_type):
+	print('Checking result for match', match_id)
 	if not (bool(db.get_item('match_result','matches',{'match_id':match_id})[0][0])):
 		
 		if link_type == 'CLUB':
 			df = sc.scrap_club(link_url)
 			
-			match_date = pd.to_datetime(
+			match_date = (pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
-			).date()
+			).astimezone(pytz.timezone('CET'))).date()
 			
 			if match_date == pd.to_datetime(df.loc[4, 'Date']).date():
 				db.update_match({'match_result':df.loc[4, 'Home team']}, {'match_id':match_id})
@@ -198,9 +199,9 @@ def sub_result_update(match_id, link_url, link_type):
 			
 			df = sc.scrap_competition(competition)
 			
-			match_date = pd.to_datetime(
+			match_date = (pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
-			).date()
+			).astimezone(pytz.timezone('CET'))).date()
 			match_home = db.get_item('team_name','teams',{
 				'team_id':db.get_item('match_home','matches',{'match_id':match_id})[0][0]
 			})[0][0]
