@@ -68,8 +68,8 @@ INSERT INTO competitions VALUES (20, 'UEL', 'images/UEL.png') ON CONFLICT (compe
 INSERT INTO competitions VALUES (21, 'UCL', 'images/UCL.png') ON CONFLICT (competition_acronym) DO NOTHING;
 INSERT INTO competitions VALUES (22, 'SUC', 'images/SUC.png') ON CONFLICT (competition_acronym) DO NOTHING;
 INSERT INTO competitions VALUES (23, 'TDC', 'images/TDC.png') ON CONFLICT (competition_acronym) DO NOTHING;
-INSERT INTO competitions VALUES (24, 'WQE', 'images/WOC.png') ON CONFLICT (competition_acronym) DO NOTHING;
-INSERT INTO competitions VALUES (25, 'WQS', 'images/WOC.png') ON CONFLICT (competition_acronym) DO NOTHING;
+INSERT INTO competitions VALUES (24, 'WQE', 'images/WQE.png') ON CONFLICT (competition_acronym) DO NOTHING;
+INSERT INTO competitions VALUES (25, 'WQS', 'images/WQS.png') ON CONFLICT (competition_acronym) DO NOTHING;
 
 INSERT INTO links VALUES (1, 'Manchester City', 'https://int.soccerway.com/teams/england/manchester-city-football-club/676/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (2, 'Liverpool', 'https://int.soccerway.com/teams/england/liverpool-fc/663/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
