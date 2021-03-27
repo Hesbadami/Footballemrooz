@@ -155,6 +155,10 @@ class Html():
 		
 		while len(self.rows) < 9:
 			self.rows.append(self.placeholder)
+		
+		if len(self.rows) == 9 and daybreaked:
+			self.rows.append(self.placeholder)
+		
 		hashrow = ''
 		for r in self.rows:
 			hashrow += r
