@@ -206,7 +206,7 @@ INSERT INTO teams VALUES (93, 'Lille', 'لیل', 'images/Lille.png') ON CONFLICT
 INSERT INTO teams VALUES (94, 'Sanat Naft', 'صنعت نفت', 'images/Sanat Naft.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (95, 'Naft Masjed Soleyman', 'نفت مسجد سلیمان', 'images/Naft Masjed Soleyman.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (96, 'Machine Sazi', 'ماشین سازی', 'images/Machine Sazi.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (97, 'Czech Republic', 'جمهوری چک', 'images/Czech Repng') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (97, 'Czech Republic', 'جمهوری چک', 'images/Czech Republic.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (98, 'Bahrain', 'بحرین', 'images/Bahrain.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (99, 'Monaco', 'موناکو', 'images/Monaco.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (100, 'Iraq', 'عراق', 'images/Iraq.png') ON CONFLICT (team_name) DO NOTHING;
@@ -271,12 +271,12 @@ INSERT INTO teams VALUES (158, 'Caen', 'کان', 'images/Caen.png') ON CONFLICT 
 INSERT INTO teams VALUES (159, 'Mes Novin Kerman', 'مس نوین کرمان', 'images/Mes Novin Kerman.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (160, 'Al Rayyan', 'الریان', 'images/Al Rayyan.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (161, 'Al Shorta', 'الشرطه', 'images/Al Shorta.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (162, 'Serbia', 'صربيا', 'images/Serbia.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (162, 'Serbia', 'صربستان', 'images/Serbia.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (163, 'Luxembourg', 'لوکزامبورگ', 'images/Luxembourg.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (164, 'Georgia', 'گرجستان', 'images/Georgia.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (165, 'Kazakhstan', 'قزاقستان', 'images/Kazakhstan.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (166, 'Nice', 'نیس', 'images/Nice.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (167, 'Korea Republic', 'کره جنوبی', 'images/Korea Repng') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (167, 'Korea Republic', 'کره جنوبی', 'images/Korea Republic.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (168, 'Akhmat Grozny', 'احمد گروزنی', 'images/Akhmat Grozny.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (169, 'Azerbaijan', 'آذربایجان', 'images/Azerbaijan.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (170, 'Albania', 'آلبانی', 'images/Albania.png') ON CONFLICT (team_name) DO NOTHING;
