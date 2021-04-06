@@ -80,7 +80,7 @@ class Scrap:
 	def today(self):
 		tz = pytz.timezone('Asia/Tehran')
 		matches = self.raw()
-		matches['Date'] = matches['Date'].apply(lambda x: pd.to_datetime(x).date())
+		matches['Date'] = matches['Date'].apply(lambda x: pd.to_datetime(x, dayfirst=True).date())
 		matches = matches[
 			(matches['Date']==datetime.datetime.now(tz).date()) |
 			(matches['Date']==(datetime.datetime.now(tz)+datetime.timedelta(days=1)).date())
@@ -94,7 +94,7 @@ class Scrap:
 			matches = matches[matches['Score/Time'].apply(lambda x: ":" in x)]
 			matches['Date'] = matches['Date'].apply(str) +' '+ matches['Score/Time'].apply(lambda x: x.replace(' ', ''))
 			matches.drop('Score/Time', axis=1, inplace=True)
-			matches['Date'] = matches['Date'].apply(lambda x: localize_timezone(pd.to_datetime(x)))
+			matches['Date'] = matches['Date'].apply(lambda x: localize_timezone(pd.to_datetime(x, dayfirst=True)))
 			matches.drop_duplicates(keep='first', inplace=True)
 			matches.reset_index(drop=True, inplace=True)
 		

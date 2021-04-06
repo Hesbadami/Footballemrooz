@@ -147,7 +147,7 @@ def sub_result_update(match_id, link_url, link_type):
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
 			).astimezone(pytz.timezone('CET'))).date()
 			
-			if match_date == pd.to_datetime(df.loc[4, 'Date']).date():
+			if match_date == pd.to_datetime(df.loc[4, 'Date'], dayfirst=True).date():
 				db.update_match({'match_result':df.loc[4, 'Home team']}, {'match_id':match_id})
 				
 				if args.telegram: tg.send_action('typing')
@@ -210,7 +210,7 @@ def sub_result_update(match_id, link_url, link_type):
 			})[0][0]
 
 			df = df[
-				(df['Date'].apply(lambda d: pd.to_datetime(d).date()) == match_date) &
+				(df['Date'].apply(lambda d: pd.to_datetime(d, dayfirst=True).date()) == match_date) &
 				(df['Home team'] == match_home) &
 				(df['Away team'] == match_away)
 			]
