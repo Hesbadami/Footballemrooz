@@ -138,16 +138,24 @@ if not args.noimage:
 	
 def sub_result_update(match_id, link_url, link_type):
 	print('Checking result for match', match_id)
+	print('Does match have results?', db.get_item('match_result','matches',{'match_id':match_id}))
 	if not (bool(db.get_item('match_result','matches',{'match_id':match_id})[0][0])):
-		
+		print('NO, GONNA GET IT')
 		if link_type == 'CLUB':
+			print("It's a club, let's scrap")
 			df = sc.scrap_club(link_url)
 			
 			match_date = (pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
 			).astimezone(pytz.timezone('CET'))).date()
 			
+			print('match date is', match_date)
+			print('match loc4 is', pd.to_datetime(df.loc[4, 'Date'], dayfirst=True).date())
+			print('Are they equal?')
+
 			if match_date == pd.to_datetime(df.loc[4, 'Date'], dayfirst=True).date():
+				print("YES, let's create the image")
+				
 				db.update_match({'match_result':df.loc[4, 'Home team']}, {'match_id':match_id})
 				
 				if args.telegram: tg.send_action('typing')
@@ -437,6 +445,7 @@ def main():
 					link_type = db.get_item('link_type', 'links', {'link_name':team})[0][0]
 					break
 			
+			print('scheduling for', str(row['Hour']))
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
 			
 			def sub_result_check():
