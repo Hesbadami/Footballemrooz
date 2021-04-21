@@ -449,19 +449,19 @@ def main():
 			print('scheduling for', str(row['Hour']))
 			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type, str(row['Hour']))
 			
-			def sub_result_check():
-				
-				class SubResultThread(threading.Thread):
-					@classmethod
-					def run(cls):
-						while schedule_result.jobs:
-							schedule_subresult.run_pending()
-							time.sleep(300)
-				
-				check_thread = SubResultThread()
-				check_thread.start()
+		def sub_result_check():
 			
-			sub_result_check()
+			class SubResultThread(threading.Thread):
+				@classmethod
+				def run(cls):
+					while schedule_result.jobs:
+						schedule_subresult.run_pending()
+						time.sleep(300)
+			
+			check_thread = SubResultThread()
+			check_thread.start()
+		
+		sub_result_check()
 		
 		def run_result_check():
 
