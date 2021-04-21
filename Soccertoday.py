@@ -150,14 +150,19 @@ def sub_result_update(match_id, link_url, link_type, titi):
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
 			).astimezone(pytz.timezone('CET'))).date()
 			
+			df['Date'] = df['Date'].apply(lambda x: pd.to_datetime(x, dayfirst=True).date())
+			
+			dfloc = df[df['Date'].apply(str) == str(now.date())]
+			
 			print('match date is', match_date)
-			print('match loc4 is', pd.to_datetime(df.loc[4, 'Date'], dayfirst=True).date())
+			print('match loc4 is', dfloc.iloc[0]['Date'])
 			print('Are they equal?')
 
-			if match_date == pd.to_datetime(df.loc[4, 'Date'], dayfirst=True).date():
+			if (' - ' in dfloc.iloc[0]['Home team']) and (match_date == dfloc.iloc[0]['Date']):
+				
 				print("YES, let's create the image")
 				
-				db.update_match({'match_result':df.loc[4, 'Home team']}, {'match_id':match_id})
+				db.update_match({'match_result':dfloc.iloc[0]['Home team']}, {'match_id':match_id})
 				
 				if args.telegram: tg.send_action('typing')
 	
