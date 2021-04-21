@@ -315,6 +315,7 @@ INSERT INTO teams VALUES (202, 'Yemen', 'یمن', 'images/Yemen.png') ON CONFLIC
 INSERT INTO teams VALUES (203, 'Zambia', 'زامبیا', 'images/Zambia.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (204, 'Zimbabwe', 'زیمبابوه', 'images/Zimbabwe.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (205, 'Goa', 'گوا هند', 'images/Goa.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (206, 'Al Duhail', 'الدحیل', 'images/Al Duhail.png') ON CONFLICT (team_name) DO NOTHING;
 
 SELECT pg_catalog.setval('links_link_id_seq', (SELECT MAX(link_id) FROM links), true);
 SELECT pg_catalog.setval('competitions_competition_id_seq', (SELECT MAX(competition_id) FROM competitions), true);
