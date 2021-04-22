@@ -136,8 +136,7 @@ if not args.noimage:
 		img.save(f"results/{date}.png")
 		print (f'Successfully generated {date}.png')
 	
-def sub_result_update(match_id, link_url, link_type, titi):
-	print('its', titi)
+def sub_result_update(match_id, link_url, link_type):
 	print('Checking result for match', match_id)
 	print('Does match have results?', db.get_item('match_result','matches',{'match_id':match_id}))
 	if not (bool(db.get_item('match_result','matches',{'match_id':match_id})[0][0])):
@@ -452,7 +451,7 @@ def main():
 					break
 			
 			print('scheduling for', str(row['Hour']))
-			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type, str(row['Hour']))
+			schedule_result.every().day.at(str(row['Hour'])).do(result_update, row[0], link_url[0][0], link_type)
 			
 		def sub_result_check():
 			
