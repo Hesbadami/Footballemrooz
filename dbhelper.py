@@ -6,23 +6,31 @@ with open('config.json', 'r') as f:
 class DBHelper:
 	def __init__(self, dbname="footballemrooz"):
 		self.dbname = dbname
+	
+	def dbconnect(self):
 		self.con = psycopg2.connect(
-			database = dbname,
+			database = self.dbname,
 			user = _config['PostgreSQL_USERNAME'],
 			password = _config['PostgreSQL_PASSWORD'],
 			host = _config['PostgreSQL_HOST'],
 			port = _config['PostgreSQL_PORT']
 		)
 		self.cur = self.con.cursor()
-		
+	
 	def setup(self):
+		self.dbconnect()
+		
 		with open('dbtables.sql', 'r') as stmt:
 			stmt = stmt.read()
 		
 		self.cur.execute(stmt)
 		self.con.commit()
-
+		
+		self.con.close()
+		
 	def add_team(self, columns, values, replace=None):
+		self.dbconnect()
+		
 		t = ''
 		
 		args = (values, )
@@ -38,7 +46,11 @@ class DBHelper:
 		self.cur.execute(stmt, args)
 		self.con.commit()
 		
+		self.con.close()
+		
 	def add_competition(self, columns, values, replace=None):
+		self.dbconnect()
+		
 		t = ''
 		
 		args = (values, )
@@ -53,22 +65,34 @@ class DBHelper:
 		
 		self.cur.execute(stmt, args)
 		self.con.commit()
+		
+		self.con.close()
 	
 	def delete_team(self, name):
+		self.dbconnect()
+		
 		stmt = "DELETE FROM teams WHERE team_name = %s;"
 		args = (name, )
 		
 		self.cur.execute(stmt, args)
 		self.con.commit()
 		
+		self.con.close()
+		
 	def delete_competition(self, name):
+		self.dbconnect()
+		
 		stmt = "DELETE FROM competitions WHERE competition_name = %s;"
 		args = (name, )
 		
 		self.cur.execute(stmt, args)
 		self.con.commit()
 		
+		self.con.close()
+		
 	def add_post(self, columns, values, replace=None):
+		self.dbconnect()
+		
 		t = ''
 		
 		args = (values, )
@@ -84,8 +108,12 @@ class DBHelper:
 		
 		self.cur.execute(stmt, args)
 		self.con.commit()
-	
+		
+		self.con.close()
+		
 	def add_match(self, columns, values, replace=None):
+		self.dbconnect()
+		
 		check = f"SELECT EXISTS (SELECT match_id FROM matches WHERE ({columns}) = %s);"
 		
 		stmt = f"INSERT INTO matches ({columns}) VALUES %s;"
@@ -99,7 +127,11 @@ class DBHelper:
 		self.cur.execute(stmt, args)
 		self.con.commit()
 		
+		self.con.close()
+		
 	def update_match(self, replace, condition):
+		self.dbconnect()
+		
 		s = {
 			'replace':'',
 			'condition':''
@@ -118,8 +150,12 @@ class DBHelper:
 		
 		self.cur.execute(stmt, args)
 		self.con.commit()
+		
+		self.con.close()
 	
 	def get_item(self, column, table, condition=None, returnBool=False):
+		self.dbconnect()
+		
 		s = ''
 
 		if condition:
@@ -136,3 +172,5 @@ class DBHelper:
 		
 		self.cur.execute(stmt, condition)
 		return self.cur.fetchall()
+		
+		self.con.close()
