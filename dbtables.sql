@@ -70,6 +70,9 @@ INSERT INTO competitions VALUES (22, 'SUC', 'images/SUC.png') ON CONFLICT (compe
 INSERT INTO competitions VALUES (23, 'TDC', 'images/TDC.png') ON CONFLICT (competition_acronym) DO NOTHING;
 INSERT INTO competitions VALUES (24, 'WQE', 'images/WQE.png') ON CONFLICT (competition_acronym) DO NOTHING;
 INSERT INTO competitions VALUES (25, 'WQS', 'images/WQS.png') ON CONFLICT (competition_acronym) DO NOTHING;
+INSERT INTO competitions VALUES (26, 'WQA', 'images/WQA.png') ON CONFLICT (competition_acronym) DO NOTHING;
+INSERT INTO competitions VALUES (27, 'COA', 'images/COA.png') ON CONFLICT (competition_acronym) DO NOTHING;
+INSERT INTO competitions VALUES (28, 'EUC', 'images/EUC.png') ON CONFLICT (competition_acronym) DO NOTHING;
 
 INSERT INTO links VALUES (1, 'Manchester City', 'https://int.soccerway.com/teams/england/manchester-city-football-club/676/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (2, 'Liverpool', 'https://int.soccerway.com/teams/england/liverpool-fc/663/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
@@ -319,6 +322,15 @@ INSERT INTO teams VALUES (206, 'Al Duhail', 'الدحیل', 'images/Al Duhail.pn
 INSERT INTO teams VALUES (207, 'Al Wahda', 'الوحده امارات', 'images/Al Wahda.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (208, 'Al Ahli', 'الاهلی عربستان', 'images/Al Ahli.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (209, 'Shahin Bandar Ameri', 'شاهین بندر عامری', 'images/Shahin Bandar Ameri.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (210, 'Austria', 'اتریش', 'images/Austria.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (211, 'Chile', 'شیلی', 'images/Chile.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (212, 'Denmark', 'دانمارک', 'images/Denmark.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (213, 'Finland', 'فنلاند', 'images/Finland.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (214, 'Hungary', 'مجارستان', 'images/Hungary.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (215, 'Peru', 'پرو', 'images/Peru.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (216, 'Scotland', 'اسکاتلند', 'images/Scotland.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (217, 'Sweden', 'سوئد', 'images/Sweden.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (218, 'Switzerland', 'سوئیس', 'images/Switzerland.png') ON CONFLICT (team_name) DO NOTHING;
 
 SELECT pg_catalog.setval('links_link_id_seq', (SELECT MAX(link_id) FROM links), true);
 SELECT pg_catalog.setval('competitions_competition_id_seq', (SELECT MAX(competition_id) FROM competitions), true);
