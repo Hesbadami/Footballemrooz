@@ -437,6 +437,7 @@ def main():
 		def result_update(match_id, link_url, link_type):
 			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
 			print(schedule_result.jobs)
+			print(schedule_subresult.jobs)
 			return schedule.CancelJob
 		
 		for index, row in matches.iterrows():

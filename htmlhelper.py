@@ -52,29 +52,38 @@ class Html():
 			'#channel': channel
 		}
 		row = self.row
-		if isscore:
-			scores = scoretime.split(' - ')
-			outcome = {}
-			score = {}
-			winner = scores.index(max(scores))
-			looser = scores.index(min(scores))
-			outcome[winner] = 'winner'
-			outcome[looser] = 'looser'
-			score[winner] = digits.en_to_fa(max(scores))
-			score[looser] = digits.en_to_fa(min(scores))
-			if max(scores) == min(scores):
-				outcome[0] = 'tie'
-				outcome[1] = 'tie'
-				score[0] = digits.en_to_fa(max(scores))
-				score[1] = digits.en_to_fa(min(scores))
-			values['#homeoutcome'] = outcome[0]
-			values['#homescore'] = score[0]
-			values['#awayoutcome'] = outcome[1]
-			values['#awayscore'] = score[1]
-			row = row.replace('#score/time', self.scorediv)
-		if not isscore:
-			values['#time'] = scoretime
+		
+		if "لغو" in scoretime:
+			values['#time'] = "لغو شد"
 			row = row.replace('#score/time', self.timediv)
+			
+		else:
+			
+			if isscore:
+				scores = scoretime.split(' - ')
+				outcome = {}
+				score = {}
+				winner = scores.index(max(scores))
+				looser = scores.index(min(scores))
+				outcome[winner] = 'winner'
+				outcome[looser] = 'looser'
+				score[winner] = digits.en_to_fa(max(scores))
+				score[looser] = digits.en_to_fa(min(scores))
+				if max(scores) == min(scores):
+					outcome[0] = 'tie'
+					outcome[1] = 'tie'
+					score[0] = digits.en_to_fa(max(scores))
+					score[1] = digits.en_to_fa(min(scores))
+				values['#homeoutcome'] = outcome[0]
+				values['#homescore'] = score[0]
+				values['#awayoutcome'] = outcome[1]
+				values['#awayscore'] = score[1]
+				row = row.replace('#score/time', self.scorediv)
+				
+			if not isscore:
+				values['#time'] = scoretime
+				row = row.replace('#score/time', self.timediv)
+		
 		for value in values:
 			row = row.replace(value, values[value])
 		self.rows.append(row)
