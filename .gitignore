@@ -2,3 +2,5 @@
 config.json
 *.html
 results/*.png
+adabudu.py
+test.py
