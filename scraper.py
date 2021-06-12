@@ -103,7 +103,13 @@ class Scrap:
 	def scrap_channels(self):
 		response = requests.get('https://www.varzesh3.com')
 		soup = BeautifulSoup(response.content, "html5lib").find(id="widget28")
-		soup = soup.find(class_="full-width").get_text().split('\n')
+		while True:
+			try:
+				soup = soup.find(class_="full-width").get_text().split('\n')
+				break
+			except:
+				continue
+		
 		tvbox = list(filter(None, [a.strip() for a in soup]))
 		
 		channels = {}
@@ -137,6 +143,8 @@ class Scrap:
 		
 		df['Channel'] = 'none'
 		for index, row in df.iterrows():
+			print(row['Home team'], 'is home')
+			print(row['Away team'], 'is away')
 			for team in [
 				db.get_item('(team_name_fa)', 'teams', {'team_name': row['Home team']})[0][0],
 				db.get_item('(team_name_fa)', 'teams', {'team_name': row['Away team']})[0][0]
