@@ -82,13 +82,11 @@ def warning():
 		]:
 			if (not db.get_item('team_id','teams',{'team_name':b}, returnBool=True)[0][0]):
 				dr = (pd.to_datetime(row['Date']).date() - now.date()).days
-				if (0 <= dr <= 10):
-					BadTeam = BadTeam.append({'Team':b, 'Days':dr}, ignore_index=True)
+				BadTeam = BadTeam.append({'Team':b, 'Days':dr}, ignore_index=True)
 					
 		if (not db.get_item('competition_id','competitions',{'competition_acronym':row['Competition']}, returnBool=True)[0][0]):
 			dr = (pd.to_datetime(row['Date']).date() - now.date()).days
-			if (0 <= dr <= 10):
-				BadTeam = BadTeam.append({'Team':row['Competition'], 'Days':dr}, ignore_index=True)
+			BadTeam = BadTeam.append({'Team':row['Competition'], 'Days':dr}, ignore_index=True)
 					
 	if not BadTeam.empty:
 		BadTeam.sort_values('Days', inplace=True, ignore_index=True)
