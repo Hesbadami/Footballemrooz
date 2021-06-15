@@ -474,7 +474,7 @@ def main():
 			class SubResultThread(threading.Thread):
 				@classmethod
 				def run(cls):
-					while schedule_result.jobs:
+					while schedule_subresult.jobs:
 						schedule_subresult.run_pending()
 						time.sleep(300)
 			
