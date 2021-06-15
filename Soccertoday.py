@@ -133,7 +133,12 @@ if not args.noimage:
 		
 		img.save(f"results/{date}.png")
 		print (f'Successfully generated {date}.png')
-	
+
+def blocalize_timezone(timestamp):
+	new_timezone = pytz.timezone('CET')
+	old_timezone = pytz.timezone('Asia/Tehran')
+	return timestamp.astimezone(new_timezone)
+
 def sub_result_update(match_id, link_url, link_type):
 	print('Checking result for match', match_id)
 	print('Does match have results?', db.get_item('match_result','matches',{'match_id':match_id}))
@@ -142,25 +147,32 @@ def sub_result_update(match_id, link_url, link_type):
 		if link_type == 'CLUB':
 			print("It's a club, let's scrap")
 			df = sc.scrap_club(link_url)
-			
-			match_date = (pd.to_datetime(
+			print(df)
+			match_date = blocalize_timezone(pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
-			).astimezone(pytz.timezone('CET'))).date()
+			)).date()
 			
 			df['Date'] = df['Date'].apply(lambda x: pd.to_datetime(x, dayfirst=True).date())
-			
 			dfloc = df[df['Date'].apply(str) == str(now.date())]
 			
 			print('match date is', match_date)
-			print('match loc4 is', dfloc.iloc[0]['Date'])
+			if not dfloc.empty:
+				print('match loc4 is', dfloc.iloc[0]['Date'])
+			else:
+				print('match postponed')
 			print('Are they equal?')
 
-			if (' - ' in dfloc.iloc[0]['Home team']) and (match_date == dfloc.iloc[0]['Date']):
-				
+			if (dfloc.empty) or ((' - ' in dfloc.iloc[0]['Home team']) and (match_date == dfloc.iloc[0]['Date'])):
 				print("YES, let's create the image")
 				
-				db.update_match({'match_result':dfloc.iloc[0]['Home team']}, {'match_id':match_id})
+				if not dfloc.empty:
 				
+					db.update_match({'match_result':dfloc.iloc[0]['Home team']}, {'match_id':match_id})
+					
+				else:
+					
+					db.update_match({'match_result':"لغو- شد"}, {'match_id':match_id})
+								
 				if args.telegram: tg.send_action('typing')
 	
 				post_id = db.get_item('MAX(post_id)','posts')[0][0]
@@ -210,9 +222,9 @@ def sub_result_update(match_id, link_url, link_type):
 			
 			df = sc.scrap_competition(competition)
 			
-			match_date = (pd.to_datetime(
+			match_date = blocalize_timezone(pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
-			).astimezone(pytz.timezone('CET'))).date()
+			)).date()
 			match_home = db.get_item('team_name','teams',{
 				'team_id':db.get_item('match_home','matches',{'match_id':match_id})[0][0]
 			})[0][0]
@@ -433,7 +445,11 @@ def main():
 		schedule_result = schedule.Scheduler()
 		
 		def result_update(match_id, link_url, link_type):
+			print ("Entered result update for match:", match_id)
+			
 			schedule_subresult.every(15).minutes.do(sub_result_update, match_id, link_url, link_type)
+			
+			print("Scheduled check for every 15 minutes for match:", match_id, "\n Here are the jobs:")
 			print(schedule_result.jobs)
 			print(schedule_subresult.jobs)
 			return schedule.CancelJob
