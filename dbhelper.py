@@ -128,7 +128,7 @@ class DBHelper:
 		
 		cur.execute(check, args)
 		
-		if (self.cur.fetchall()[0][0]):
+		if (cur.fetchall()[0][0]):
 			raise ValueError('Match already exists, use "update_match()" instead')
 		
 		cur.execute(stmt, args)
