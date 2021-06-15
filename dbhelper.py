@@ -8,28 +8,30 @@ class DBHelper:
 		self.dbname = dbname
 	
 	def dbconnect(self):
-		self.con = psycopg2.connect(
+		con = psycopg2.connect(
 			database = self.dbname,
 			user = _config['PostgreSQL_USERNAME'],
 			password = _config['PostgreSQL_PASSWORD'],
 			host = _config['PostgreSQL_HOST'],
 			port = _config['PostgreSQL_PORT']
 		)
-		self.cur = self.con.cursor()
-	
+		return con
+		
 	def setup(self):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		with open('dbtables.sql', 'r') as stmt:
 			stmt = stmt.read()
 		
-		self.cur.execute(stmt)
-		self.con.commit()
+		cur.execute(stmt)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def add_team(self, columns, values, replace=None):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		t = ''
 		
@@ -43,13 +45,14 @@ class DBHelper:
 		
 		stmt = f"INSERT INTO teams ({columns}) VALUES %s ON CONFLICT (team_name) DO {bool(not replace)*'NOTHING; -- '}UPDATE SET {t};"
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def add_competition(self, columns, values, replace=None):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		t = ''
 		
@@ -63,35 +66,38 @@ class DBHelper:
 		
 		stmt = f"INSERT INTO competitions ({columns}) VALUES %s ON CONFLICT (competition_acronym) DO {bool(not replace)*'NOTHING; -- '}UPDATE SET {t};"
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 	
 	def delete_team(self, name):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		stmt = "DELETE FROM teams WHERE team_name = %s;"
 		args = (name, )
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def delete_competition(self, name):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		stmt = "DELETE FROM competitions WHERE competition_name = %s;"
 		args = (name, )
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def add_post(self, columns, values, replace=None):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		t = ''
 		
@@ -106,13 +112,14 @@ class DBHelper:
 		
 		stmt = f"INSERT INTO posts ({columns}) VALUES %s ON CONFLICT (post_date) DO {bool(not replace)*'NOTHING; -- '}UPDATE SET {t};"
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def add_match(self, columns, values, replace=None):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		check = f"SELECT EXISTS (SELECT match_id FROM matches WHERE ({columns}) = %s);"
 		
@@ -124,13 +131,14 @@ class DBHelper:
 		if (self.cur.fetchall()[0][0]):
 			raise ValueError('Match already exists, use "update_match()" instead')
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 		
 	def update_match(self, replace, condition):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		s = {
 			'replace':'',
@@ -148,13 +156,14 @@ class DBHelper:
 		args = tuple(replace.values()) + tuple(condition.values())
 		stmt = f"UPDATE matches SET {s['replace']} WHERE {s['condition']};"
 		
-		self.cur.execute(stmt, args)
-		self.con.commit()
+		cur.execute(stmt, args)
 		
-		self.con.close()
+		con.commit()
+		con.close()
 	
 	def get_item(self, column, table, condition=None, returnBool=False):
-		self.dbconnect()
+		con = self.dbconnect()
+		cur = con.cursor()
 		
 		s = ''
 
@@ -170,7 +179,8 @@ class DBHelper:
 		if returnBool:
 			stmt = f"SELECT EXISTS ({stmt});"
 		
-		self.cur.execute(stmt, condition)
-		return self.cur.fetchall()
+		cur.execute(stmt, condition)
+		return cur.fetchall()
 		
-		self.con.close()
+		con.commit()
+		con.close()
