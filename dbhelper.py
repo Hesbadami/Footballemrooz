@@ -126,7 +126,7 @@ class DBHelper:
 		stmt = f"INSERT INTO matches ({columns}) VALUES %s;"
 		args = (values, )
 		
-		self.cur.execute(check, args)
+		cur.execute(check, args)
 		
 		if (self.cur.fetchall()[0][0]):
 			raise ValueError('Match already exists, use "update_match()" instead')
