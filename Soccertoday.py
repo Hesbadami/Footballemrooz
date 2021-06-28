@@ -153,7 +153,7 @@ def sub_result_update(match_id, link_url, link_type):
 			)).date()
 			
 			df['Date'] = df['Date'].apply(lambda x: pd.to_datetime(x, dayfirst=True).date())
-			dfloc = df[df['Date'].apply(str) == str(now.date())]
+			dfloc = df[df['Date'].apply(str) == str(match_date)]
 			
 			print('match date is', match_date)
 			if not dfloc.empty:
@@ -307,6 +307,8 @@ def channel_update():
 			if (team in channels) and (row[7] != channels[team]):
 				haschanged = True
 				matches.loc[index, 7] = channels[team]
+				db.update_match({'match_channel':channels[team]}, {'match_id':row[0]})
+				
 			if row[6]:
 				R = '_Result'
 				matches['Result'] = matches[6]
