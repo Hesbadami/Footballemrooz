@@ -1,6 +1,7 @@
 import time, concurrent.futures, json, requests, pytz
 import datetime
 import pandas as pd
+import numpy as np
 from bs4 import BeautifulSoup
 
 from dbhelper import DBHelper
@@ -42,8 +43,11 @@ class Scrap:
 					df = pd.concat ([
 						df['Day'].iloc[range(0,len(df),2)].reset_index(drop=True).rename('Date'),
 						df.drop(range(0,len(df),2)).reset_index(drop=True)
-					], axis=1).drop('Day',axis=1)[0:]
+					], axis=1)
+					df['Score/Time'] = np.where(df['Day']=='FT', df['Score/Time'], df['Day'])
 					df['Competition'] = comp[0]
+					df.drop('Day',axis=1, inplace=True)
+					df['Score/Time'] = df['Score/Time'].apply(lambda x: x.replace(":"," : "))
 					competition = pd.concat([competition, df])
 				competition.reset_index(drop = True, inplace = True)
 		return competition
