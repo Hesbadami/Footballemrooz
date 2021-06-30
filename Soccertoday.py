@@ -214,6 +214,7 @@ def sub_result_update(match_id, link_url, link_type):
 				return schedule.CancelJob
 			
 		elif link_type == 'COMPETITION':
+			print("It's a competition, let's scrap")
 			competition =  db.get_item(
 				'(link_name, link_url, link_stages)',
 				'links',
@@ -225,6 +226,8 @@ def sub_result_update(match_id, link_url, link_type):
 			match_date = blocalize_timezone(pd.to_datetime(
 				db.get_item('match_datetime','matches',{'match_id':match_id})[0][0]
 			)).date()
+			print("match date is", match_date)
+			
 			match_home = db.get_item('team_name','teams',{
 				'team_id':db.get_item('match_home','matches',{'match_id':match_id})[0][0]
 			})[0][0]
@@ -237,8 +240,13 @@ def sub_result_update(match_id, link_url, link_type):
 				(df['Home team'] == match_home) &
 				(df['Away team'] == match_away)
 			]
+			
+			print("match loc4 is", df['Date'])
+			print("Are they equal?")
 			if not df.empty:
+				print("YES, is there a result?")
 				if '-' in df.iloc[0, 3]:
+					print("YES, let's create the image")
 					db.update_match({'match_result':df.iloc[0, 3]}, {'match_id':match_id})
 					
 					if args.telegram: tg.send_action('typing')
