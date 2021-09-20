@@ -81,8 +81,8 @@ INSERT INTO links VALUES (4, 'Tottenham Hotspur', 'https://int.soccerway.com/tea
 INSERT INTO links VALUES (5, 'Chelsea', 'https://int.soccerway.com/teams/england/chelsea-football-club/661/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (6, 'Manchester United', 'https://int.soccerway.com/teams/england/manchester-united-fc/662/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (7, 'Napoli', 'https://int.soccerway.com/teams/italy/ssc-napoli/1270/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
-INSERT INTO links VALUES (8, 'Internazionale', 'https://int.soccerway.com/teams/italy/fc-internazionale-milano/1244/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
-INSERT INTO links VALUES (9, 'Milan', 'https://int.soccerway.com/teams/italy/ac-milan/1240/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
+INSERT INTO links VALUES (8, 'Inter Milan', 'https://int.soccerway.com/teams/italy/fc-internazionale-milano/1244/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
+INSERT INTO links VALUES (9, 'AC Milan', 'https://int.soccerway.com/teams/italy/ac-milan/1240/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (10, 'Juventus', 'https://int.soccerway.com/teams/italy/juventus-fc/1242/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (11, 'Atalanta', 'https://int.soccerway.com/teams/italy/atalanta-bergamo/1255/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (12, 'Borussia Dortmund', 'https://int.soccerway.com/teams/germany/bv-borussia-09-dortmund/964/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
@@ -111,8 +111,7 @@ INSERT INTO links VALUES (34, 'UNL', 'https://int.soccerway.com/international/eu
 INSERT INTO links VALUES (35, 'WOC', 'https://int.soccerway.com/international/world/world-cup/', 'COMPETITION', 55) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (36, 'ACL', 'https://int.soccerway.com/international/asia/afc-champions-league/', 'COMPETITION', 24) ON CONFLICT (link_name) DO NOTHING;
 INSERT INTO links VALUES (37, 'USC', 'https://us.soccerway.com/international/europe/uefa-super-cup/', 'COMPETITION', 11) ON CONFLICT (link_name) DO NOTHING;
-INSERT INTO links VALUES (38, 'AC Milan', 'https://int.soccerway.com/teams/italy/ac-milan/1240/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
-INSERT INTO links VALUES (39, 'Internazionale', 'https://int.soccerway.com/teams/italy/fc-internazionale-milano/1244/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
+INSERT INTO links VALUES (38, 'PSG', 'https://int.soccerway.com/teams/france/paris-saint-germain-fc/886/', 'CLUB', 0) ON CONFLICT (link_name) DO NOTHING;
 
 INSERT INTO teams VALUES (1, 'Atalanta', 'آتالانتا', 'images/Atalanta.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (2, 'Chelsea', 'چلسی', 'images/Chelsea.png') ON CONFLICT (team_name) DO NOTHING;
@@ -356,59 +355,35 @@ INSERT INTO teams VALUES (239, 'Saudi Arabia', 'عربستان', 'images/Saudi A
 INSERT INTO teams VALUES (240, 'Slovakia', 'اسلواکی', 'images/Slovakia.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (241, 'Syria', 'سوریه', 'images/Syria.png') ON CONFLICT (team_name) DO NOTHING;
 INSERT INTO teams VALUES (242, 'Thailand', 'تایلند', 'images/Thailand.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (243, 'AC Milan', '', 'images/AC Milan.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (244, 'Besiktas', '', 'images/Besiktas.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (245, 'Inter Milan', '', 'images/Inter Milan.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (246, 'Preston North End', '', 'images/Preston North End.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (247, 'AFC Wimbledon', '', 'images/AFC Wimbledon.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (248, 'Bochum', '', 'images/Bochum.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (249, 'Istiklol', '', 'images/Istiklol.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (250, 'Rangers', '', 'images/Rangers.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (251, 'Alaves', '', 'images/Alaves.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (252, 'Cadiz', '', 'images/Cadiz.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (253, 'Lebanon', '', 'images/Lebanon.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (254, 'Rennes', '', 'images/Rennes.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (255, 'Alessandria', '', 'images/Alessandria.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (256, 'China PR', '', 'images/China PR.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (257, 'Mallorca', '', 'images/Mallorca.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (258, 'Salernitana', '', 'images/Salernitana.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (259, 'Al Hilal', '', 'images/Al Hilal.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (260, 'Espanyol', '', 'images/Espanyol.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (261, 'Malmö', '', 'images/Malmö.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (262, 'Salzburg', '', 'images/Salzburg.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (263, 'Ascoli', '', 'images/Ascoli.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (264, 'Feyenoord', '', 'images/Feyenoord.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (265, 'North Macedonia', '', 'images/North Macedonia.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (266, 'Sporting Lisbon', '', 'images/Sporting Lisbon.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (267, 'Athletic Bilbao', '', 'images/Athletic Bilbao.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (268, 'Greuther Fürth', '', 'images/Greuther Fürth.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (269, 'Norwich City', '', 'images/Norwich City.png') ON CONFLICT (team_name) DO NOTHING;
-INSERT INTO teams VALUES (270, 'Young Boys', '', 'images/Young Boys.png') ON CONFLICT (team_name) DO NOTHING;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+INSERT INTO teams VALUES (243, 'AC Milan', 'میلان', 'images/AC Milan.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (244, 'Besiktas', 'بشیکتاش', 'images/Besiktas.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (245, 'Inter Milan', 'اینتر', 'images/Inter Milan.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (246, 'Preston North End', 'پرستون نورث اند', 'images/Preston North End.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (247, 'AFC Wimbledon', 'ویمبلدون', 'images/AFC Wimbledon.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (248, 'Bochum', 'بوخوم', 'images/Bochum.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (249, 'Istiklol', 'استقلال تاجیکستان', 'images/Istiklol.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (250, 'Rangers', 'رنجرز', 'images/Rangers.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (251, 'Alaves', 'آلاوز', 'images/Alaves.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (252, 'Cadiz', 'کادیز', 'images/Cadiz.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (253, 'Lebanon', 'لبنان', 'images/Lebanon.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (254, 'Rennes', 'رن', 'images/Rennes.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (255, 'Alessandria', 'الساندریا', 'images/Alessandria.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (256, 'China PR', 'چین', 'images/China PR.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (257, 'Mallorca', 'مایورکا', 'images/Mallorca.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (258, 'Salernitana', 'سالرنیتانا', 'images/Salernitana.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (259, 'Al Hilal', 'الهلال', 'images/Al Hilal.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (260, 'Espanyol', 'اسپانیول', 'images/Espanyol.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (261, 'Malmö', 'مالمو', 'images/Malmö.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (262, 'Salzburg', 'زالتسبورگ', 'images/Salzburg.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (263, 'Ascoli', 'آسکولی', 'images/Ascoli.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (264, 'Feyenoord', 'فاینورد', 'images/Feyenoord.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (265, 'North Macedonia', 'مقدونیه شمالی', 'images/North Macedonia.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (266, 'Sporting Lisbon', 'لیسبون', 'images/Sporting Lisbon.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (267, 'Athletic Bilbao', 'اتلتیک بیلبائو', 'images/Athletic Bilbao.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (268, 'Greuther Fürth', 'گروتر فورث', 'images/Greuther Fürth.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (269, 'Norwich City', 'نوریچ سیتی', 'images/Norwich City.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (270, 'Young Boys', 'یانگ بویز', 'images/Young Boys.png') ON CONFLICT (team_name) DO NOTHING;
+INSERT INTO teams VALUES (271, 'Lyon', 'ﺎﻠﻣپیک ﻝیﻮﻧ', 'images/Olympique Lyonnais.png') ON CONFLICT (team_name) DO NOTHING;
 
 SELECT pg_catalog.setval('links_link_id_seq', (SELECT MAX(link_id) FROM links), true);
 SELECT pg_catalog.setval('competitions_competition_id_seq', (SELECT MAX(competition_id) FROM competitions), true);
